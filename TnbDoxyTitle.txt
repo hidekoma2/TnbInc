@@ -1,0 +1,1783 @@
+//TNB Library
+namespace TNB{
+
+/** \mainpage
+ * \code
+ * -------------------------------------------------------------------
+ *	
+ *	　TNB Library Project For Win32
+ *	 
+ *	　Copyright (C) 2001-2022 by TNB製作所 - Hide Komatsu
+ *	 
+ *	　上記者は、TNB Library（以下、本ライブラリと記す）の著作権を保持しま
+ *	　すが、以下の条件を満たす場合に限り、本ライブラリの使用・複製・改変・
+ *	　再配布することを無償で許諾します。
+ *	　(1) 本ライブラリをソースコードの形で利用する場合は、上記の著作権表
+ *	　　　示、この利用条件、および下記の無保証規定が、そのままの形でソー
+ *	　　　スコード中に含まれていること。
+ *	　(2) 本ライブラリを使用したバイナリ形式（本ライブラリを再利用が出来
+ *	　　　ないあらゆる形を含む）で再配布する場合には、再配布に伴うドキュ
+ *	　　　メント（利用者マニュアルなど）に、上記の著作権表示、この利用条
+ *	　　　件および下記の無保証規定を掲載すること。
+ *	　(3) 本ライブラリの利用により直接的または間接的に生じるいかなる損害
+ *	　　　からも、上記著作権者を免責すること。
+ *	 
+ *	　本ライブラリは，無保証で提供しているものです。上記著作権者は、本ラ
+ *	　イブラリに関して、いかなる保証も行ないません。また、本ライブラリの
+ *	　利用により直接的または間接的に生じたいかなる損害に関しても、その責
+ *	　任を負いません。
+ *	
+ * -------------------------------------------------------------------
+ * \endcode
+
+	\par
+	<a href="faq.html">FAQ はこちら</a>
+	\par
+	<a href="modules.html">モジュール一覧はこちら</a>
+
+	
+	\par
+	\par
+	\par
+
+	\par
+	この TNB Library の主な特徴は以下の通りです。
+
+	@par ヘッダのみの実装
+			すべてのクラスがヘッダのみに書かれているインラインライブラリになっています。
+			そのため、各プロジェクトへの組み込みが容易です。
+
+	@par MFCを使わないクラス
+			ほとんどのクラスがMFCを使っていませんので、MFC禁止のプロジェクト等でも使用可能です。\n
+			（MFCを使うクラスは、{@link MFCCONTROL MFCネームスペース} にまとめられています）
+
+	@par 多種の数値情報に対応
+			「{@link VALUE 値関係}」<BR>
+			特殊な値の保持の仕方をするクラスや、 計算したり比較することが出来るクラス、範囲を表せるクラス、
+			数値以外の情報も同時に扱えるクラスなど、多種定義されています。
+			SI単位や日本の単位など、単位と値をペアで管理し、それらの計算をサポートもサポートする
+			{@link VALUEUNIT 単位付き値関係}も用意されています。
+
+	@par 多種の文字列情報に対応
+			「{@link STRING 文字列関係}」<BR>
+			S-JISやJIS、UNICODEなど、各種文字コードを扱うクラスがあります。
+			また、文字操作用のライブラリもあります。
+
+	@par 多種多様な情報管理
+			「 {@link COLLECT コレクション関係 } 」<BR>
+			同じインターフェースを実装した、さまざまなコレクションテンプレートライブラリが各種用意されています。
+			{@link VALUE 値関係}や{@link STRING 文字列関係}などをコレクションすることが容易です
+			（コレクションをコレクションすることも可能です）。<BR>
+			また、シリアライズにも対応しています（コレクション要素がシリアライズに対応している必要あり）。
+
+	@par 統一した通信処理
+			「{@link COMMUNICATION 通信関係}」<BR>
+			「{@link REPORT レポータ関係}」<BR>
+			同一のインターフェースを実装した通信クラスを数種類用意して有ります。
+			シリアル、LANなど、ほぼ同じ構造で使用することが出来ます。<BR>
+
+	@par 多種のファイル操作
+			「{@link FILE ファイル関係}」<BR>
+			ファイルシステムのファイル以外に、 FtpファイルやHTTPファイル、メモリのアクセスも統一された
+			インターフェースで使用することが出来るようになっています。
+			<a class="el" href="http://www.csdinc.co.jp/archiver/">統合アーカイバプロジェクト</a>の DLL を
+			サポートするクラスも用意してあります（意識せずアーカイブファイル内のファイルもアクセス可能）。
+			また、ファイルシステムの操作も多種用意しています。
+
+	@par Windows CE (Windows Moblie) 関係
+			ほとんどのライブラリは Windows CE でも使用できます。<BR>
+			また、 {@link WINCE Windows CE 専用のクラス}も用意しています。
+
+	@par その他
+			その他、Windows APIをパックしたクラスなど、多種あります。<BR>
+			詳しくは、 <a class="el" href="modules.html">各モジュール</a>を参照ください。
+
+
+
+
+	<BR>
+	<BR>
+	<BR>
+	@deprecated
+			本ライブラリのいくつかはイテレータに対応していますが、今後、廃止の可能性があります。
+
+	@par ※注意
+			本ライブラリは Windows98 以降の WIN32 API を使用している箇所があります。
+
+	@par ※注意
+			本ライブラリは「VC6++ SP6 + PlatformSDK(February 2003) + XP SP1 DDK 2006.1106」、「VC++2005」
+			（CE 関係は「VC++2005 + Moblie 6.0 SDK」）を使用して確認しています。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup STRING			文字列関係
+　
+	\par 
+		文字列を扱う {@link TNB::CStr CStr} をはじめ、ASCII,UNICODEを扱う 
+		{@link TNB::CAscii CAscii} 、{@link TNB::CUnicode CUnicode} クラスや、
+		UTF-8を扱う CUtf8Str クラス、
+		WindowsAPIの一部に見られる、ダブルヌル終端文字列群を扱う、
+		CDoubleNullTerminateStr クラスがあります。
+		また、基本的な文字列操作の関数を、 STRLIB に、
+		便利な文字列操作の関数を {@link TNB::CStrOperator CStrOperator} に
+		集めて有ります。
+	\par 
+		CStrT 系 ( {@link TNB::CStr CStr} / {@link TNB::CAscii CAscii} / {@link TNB::CUnicode CUnicode} )は、{@link ITERATOR 反復子}によるアクセスも可能です。
+
+	\par
+		文字列管理クラス
+		<table>
+		<tr>
+			<td>クラス名</td>
+			<td>フォーマット</td>
+			<td>基本型</td>
+			<td>内容</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CStr CStr}</td>
+			<td>S-JIS or UNICODE</td>
+			<td>TCHAR</td>
+			<td>プロジェクトで指定した文字コードを扱う文字列クラスになります。<BR>
+				他の文字列クラスからの代入もサポートしています。			</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CAscii CAscii}</td>
+			<td>S-JIS</td>
+			<td>char</td>
+			<td>SJIS(ASCII)文字コードを扱う文字列クラスになります。			<BR>
+				プロジェクトで指定した文字コードに関係なくS-JIS（ASCII)を使うことが出来ます。<BR>
+				他の文字列クラスからの代入もサポートしています。			</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CUnicode CUnicode}</td>
+			<td>UNICODE</td>
+			<td>WCHAR</td>
+			<td>UNICODE文字コードを扱う文字列クラスになります。				<BR>
+				プロジェクトで指定した文字コードに関係なくUNICODEを使うことが出来ます。<BR>
+				他の文字列クラスからの代入もサポートしています。			</td>
+		</tr>
+		<tr><td></td></tr>
+		<tr>
+			<td>{@link TNB::CStrAdder CStrAdder}</td>
+			<td>S-JIS or UNICODE</td>
+			<td>TCHAR</td>
+			<td>文字列の連結に特化した文字列クラスです。<BR>
+				操作メソッドはあまりなく、大量の文字列を連結していく時に、高速に処理できます。</td>
+		</tr>
+		<tr>
+			<td>CJisStr</td>
+			<td>JIS</td>
+			<td>char</td>
+			<td>JISコードを扱う文字列クラスになります。<BR>
+				操作メソッドはあまりなく、JIS 文字列の保持、変換用に使用します。</td>
+		</tr>
+		<tr>
+			<td>CUtf8Str</td>
+			<td>UTF-8</td>
+			<td>char</td>
+			<td>Unicode-Translation-Format-8(UTF8)コードを扱う文字列クラスになります。<BR>
+				操作メソッドはあまりなく、UTF8 文字列の保持、変換用に使用します。</td>
+		</tr>
+		<tr>
+			<td>CAttributedStrT</td>
+			<td>S-JIS or UNICODE</td>
+			<td>TCHAR + 属性</td>
+			<td>扱う文字列は {@link TNB::CStr CStr} と同じです。しかし、一文字ごとに、
+				属性をつけることができる文字列クラスです。<BR>
+		</tr>
+		<tr>
+			<td>CDoubleNullTerminateStr</td>
+			<td>S-JIS or UNICODE</td>
+			<td>TCHAR</td>
+			<td>プロジェクトで指定した文字コードを扱う文字列クラスになります。<BR>
+				プロジェクトで指定した文字コードの文字列しか代入をサポートしません。<BR>
+				￥0区切りの￥0￥0の終端という複数の文字列フォーマットを処理することが出来ます。</td>
+		</tr>
+		<tr>
+			<td>CBase64Str</td>
+			<td>ASCII</td>
+			<td>char</td>
+			<td>MIME BASE64 文字列とバイナリの相互変換をサポートするクラスです。<BR>
+				値は保持しません。</td>
+		</tr>
+		<tr>
+			<td>CDqSaveStr</td>
+			<td>ASCII</td>
+			<td>char</td>
+			<td>DQの復活の呪文風文字列とバイナリの相互変換をサポートするクラスです。<BR>
+				（BASE64 の使用する65個の文字をひらがなに変更しただけのものです）。</td>
+		</tr>
+		<tr><td></td></tr>
+		<tr>
+			<td>CSimpleStr</td>
+			<td>S-JIS or UNICODE</td>
+			<td>TCHAR</td>
+			<td>プロジェクトで指定した文字コードを扱う文字列クラスになります。<BR>
+				文字を単純に保持するだけのクラスです。						</td>
+		</tr>
+		<tr>
+			<td>CSimpleAscii</td>
+			<td>S-JIS</td>
+			<td>char</td>
+			<td>SJIS(ASCII)文字コードを扱う文字列クラスになります。			<BR>
+				プロジェクトで指定した文字コードに関係なくS-JIS（ASCII)を使うことが出来ます。<BR>
+				文字を単純に保持するだけのクラスです。						</td>
+		</tr>
+		</table>
+
+	@defgroup REGEX		Regular Expression 関係
+		@ingroup STRING
+
+	@defgroup GRAMMAR	文法解析関係
+		@ingroup STRING
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup VALUE			値関係
+
+	\par
+		数値を扱うクラスがあります。特殊な値の保持の仕方をするクラスや、
+		計算したり比較することが出来るもの定義されています。
+	\par
+		<table>
+		<tr>
+			<td>クラス名</td>
+			<td>情報種</td>
+			<td>内容</td>
+			<td>シリアライズ</td>
+		</tr>
+		<tr>
+			<td>CBitSet</td>
+			<td>ビットの配列</td>
+			<td>任意のビット長の値を管理します。</td>
+			<td>×</td>
+		</tr>
+		<tr>
+			<td>CBoolean</td>
+			<td>true / false</td>
+			<td>真偽のずれかの値を管理します。</td>
+			<td>△\n bool に変換することで可。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CLongIntegerT CLongIntegerT<>}</td>
+			<td>多倍長整数</td>
+			<td>64bit以上の整数を管理します。bit数は型宣言時に指定します。四則演算、ビット操作が可能です。</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CPairT CPairT<>}</td>
+			<td>二つの任意の型の値</td>
+			<td>任意の型の値を2つペアで管理します。二つの型は型宣言時に指定します。</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CRangeT CRangeT<>}</td>
+			<td>下限と上限の値</td>
+			<td>範囲を管理します。</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>CRealNumber</td>
+			<td>実数とフラグ</td>
+			<td>実数のほか、エラー状態、空状態などのフラグを合わせて管理します。四則演算が可能です。</td>
+			<td>×</td>
+		</tr>
+		<tr>
+			<td>CUnion</td>
+			<td>任意の型</td>
+			<td>任意の型、一つだけ保持できます。どんな型の値でも格納しておくことが出来ます。</td>
+			<td>×</td>
+		</tr>
+		</table>
+		他、値と単位をあわせて管理する{@link VALUEUNIT 単位付き値関係}もあります。
+
+		@defgroup VALUEUNIT		単位付き値関係
+			@ingroup VALUE
+	\par
+	\par
+		SI単位や日本の単位など、単位と値をペアで管理し、それらの計算をサポートもサポートする
+		クラス群です。比較時や計算時は自動的に単位を合わせて行ないます。<BR>
+		また、単位同士の計算による単位変換（距離÷時間は速度になる、など）もサポートしています。
+
+	\par
+		現在、{@link TNB::CValueDistance 距離}、{@link TNB::CValueArea 面積}、{@link TNB::CValueCubic 体積}、
+		{@link TNB::CValueWeight 重量}、{@link TNB::CValueTemperature 温度}、{@link TNB::CValueTime 時間}、
+		{@link TNB::CValueTime2 時間^2}、{@link TNB::CValueFrequency 周波数}、{@link TNB::CValueDegree 角度}、
+		{@link TNB::CUnitPressure 圧力}、{@link TNB::CUnitRatio 割合}、
+		{@link TNB::CValueAmpere 電流(アンペア)}、{@link TNB::CValueVolt 電圧(ボルト)}、
+		 の単位付値クラスが用意してあります。
+		他に、{@link TNB::CValueSpeed 速度(距離/時間)}、{@link TNB::CValueAcceleration 加速度(距離/時間^2)}、
+		{@link TNB::CValueDensity2 面積密度(重量/面積)}、{@link TNB::CValueDensity3 体積密度(重量/体積)}、
+		{@link TNB::CValueFlux 流量(体積/時間)}
+		と言う、「単位 / 単位」と言う単位も用意してあります
+		（上記にない組み合わせの場合、{@link TNB::CValueParT CValueParT}テンプレートを使って定義することが可能です）。
+	\par
+
+
+	@par使用例:
+		<table>
+		<tr><td><pre>
+			  1530m/s x 6kHz
+			 ――――――――   ≒  0.92m/s		
+			  4 x 1 x 2.5MHz
+		</pre></td></tr>
+		<tr><td><pre>
+			CValueSpeed ms1530(1530, CValueSpeed::M, CValueSpeed::SEC);		
+			CValueFrequency khz6(6, CValueFrequency::KHZ);
+			CValueFrequency mhz25(2.5, CValueFrequency::MHZ);
+
+			CValueSpeed r = (ms1530 * khz6) / (4 * 1 * mhz25);
+
+			TRACE1("r = %s\n", r.ToString(r.M, r.SEC));
+			ASSERT( r.GetValue(r.M, r.SEC).IsAlmostEqual(0.92));
+		</pre></td></tr>
+		</table>
+	@par使用例:(CValueParT を使用した例)
+		<table>
+		<tr><td><pre>
+			 270μs - 10μs
+			――――――――  ≒ 20cm
+			   13μs/cm
+		</pre></td></tr>
+		<tr><td><pre>
+			CValueTime us270(270, CValueTime::MICRO);
+			CValueTime us10(10, CValueTime::MICRO);
+			CValueParT<CUnitTime, CUnitDistance>
+				ucm13(13, CValueTime::MICRO, CValueDistance::CM);		
+
+			CValueDistance r = (vt1 - vt2) / xx;
+
+			TRACE1("r = %s\n",r.ToString(r.CM));
+			ASSERT( r.GetValue(r.CM).IsAlmostEqual(20, 1) );
+		</pre></td></tr>
+		</table>
+
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup COLLECT		コレクション関係
+　
+	\par 
+		オブジェクトをコレクションするクラスです。多くがテンプレートになっており、
+		宣言時に要素の型を宣言することが可能になっています。
+			<BR>
+		コレクションをコレクション(要素にコレクションを指定)することも可能です。
+			<BR>
+		基本的にシリアライズに対応しています（要素がシリアライズ対応している必要があります）。
+			<BR>
+		また、ただの配列にコレクションや、ファイルにコレクションインターフェースを付随させる
+		アダプタクラスや、アクセス順序を変化させるアダプタクラスも、用意されています。
+
+	\par
+		コレクションインターフェースを実装しているテンプレート
+		<table>
+		<tr>
+			<td>テンプレート名</td>
+			<td>主なインターフェース</td>
+			<td>内容・特徴</td>
+			<td>複製</td>
+			<td>Thread<BR>Save</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CVectorT CVectorT}	</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				<BR>
+				{@link TNB::ISequenceCollectionT ISequenceCollectionT}</td>
+			<td>情報を連続したメモリで配置し管理してます。AddやSetSizeでサイズを動的に
+				拡張できますが、メモリの再確保および要素のコピーが発生する可能性があります。<BR>
+				SetやElementで自動的にサイズを拡張する 
+				{@link TNB::CAutoVectorT CAutoVectorT}もあります。</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CListT CListT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				</td>
+			<td>情報の個々をリンクすることで管理してます。そのため、
+				追加、削除が他のコレクションに比べ高速です。
+				逆にランダムアクセスが高速ではありません。			</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CStackT CStackT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				<BR>
+				{@link TNB::ISequenceCollectionT ISequenceCollectionT}<BR>
+				{@link TNB::IQueueT IQueueT}						</td>
+			<td>情報をLIFO(Last In First Out)で管理するクラスです。	</td>
+				情報数に限度がありません。							</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CRingQueueT CRingQueueT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				<BR>
+				{@link TNB::IQueueT IQueueT}						</td>
+			<td>情報をFIFO(First In First Out)で管理するクラスです。<BR>
+				情報数に限度があります(コンストラクト時に指定します)。		<BR>
+				情がない時の取り出しと、限界数時の時の追加時にブロックする
+				{@link TNB::CBlockingQueueT CBlockingQueueT}もあります	</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CListQueueT CListQueueT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				<BR>
+				{@link TNB::IQueueT IQueueT}						</td>
+			<td>情報をFIFO(First In First Out)で管理するクラスです。<BR>
+				情報数に限度がありません。							</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CPriorityQueueT CPriorityQueueT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				<BR>
+				{@link TNB::IQueueT IQueueT}						</td>
+			<td>情報をFIFO(First In First Out)で管理するクラスです。<BR>
+				入れる時、個々の情報に優先度をつけることが出来、
+				取り出す時優先度の高いほうが優先されます。</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CMapT CMapT}</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				</td>
+			<td>一意なキーに値を割り当ててコレクションすることができます。
+				キーで値を取り出したり削除することができます。		</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSingleSetT CSingleSetT}</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ISequenceCollectionT ISequenceCollectionT}</td>
+			<td>一意の値をコレクションすることができます。
+				値をソートしてコレクションします。検索が高速です。</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CBlockLinkVectorT CBlockLinkVectorT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				</td>
+			<td>ブロックがリンクする形でメモリを確保します。そのため、
+				大量のデータをコレクションする時に、メモリの再配置が発生しないため、高速です。
+				途中への追加、削除は得意ではありません。			</td>
+			<td>×</td>
+			<td>×</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CDummyCollectionT CDummyCollectionT}</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				</td>
+			<td>要素は一切保管せず、サイズのみ対応するコレクションです。
+				ICollectionT インターフェースを欲する API に対して、サイズのみ欲しい時などに
+				使用できます。<BR>
+				※複製は「○」になっていますが、コピーされるのはサイズだけです。</td>
+			<td>○*</td>
+			<td>×</td>
+		</tr>
+		<tr><td>--以下、要素が特殊なもの--</td></tr>
+		<tr>
+			<td>{@link TNB::CConstFileMappingT CConstFileMappingT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	</td>
+			<td>ファイルをある型の配列としてメモリ上に配置するクラスですが、
+				コレクションインターフェースも持っています。<BR>
+				要素で扱える型は基本データ型、あるいは基本データ型のみの構造体のみです。</td>
+			<td>×</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CFileMappingT CFileMappingT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				</td>
+			<td>ファイルをある型の配列としてメモリ上に配置するクラスですが、
+				コレクションインターフェースも持っています。<BR>
+				要素で扱える型は基本データ型、あるいは基本データ型のみの構造体のみです。</td>
+			<td>×</td>
+			<td>×</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CPointerVectorT CPointerVectorT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	</td>
+			<td>new で確保したポインタを管理するVectorです。不必要になれば自動的に delete します。<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>×</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CBitVector CBitVector}	</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				</td>
+			<td>要素が 1BIT(bool)の vector です。他のコレクションの要素 bool にしたものと、
+				コピーなどが出来ます。CVectorT＜bool＞に比べ本クラスではメモリ効率が良くなっています。 </td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSharedQueueT CSharedQueueT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ICollectionT ICollectionT}				<BR>
+				{@link TNB::IQueueT IQueueT}						</td>
+			<td>共有メモリを使用して、情報をFIFO(First In First Out)で管理するクラスです。<BR>
+				プロセス間での情報のやり取りが可能です。<BR>
+				扱える型は基本型(コンストラクタ/デストラクタのないもの)のみです。</td>
+			<td>×</td>
+			<td>○</td>
+		</tr>
+		<tr><td>--以下、アダプタ--</td></tr>
+		<tr>
+			<td>{@link TNB::CConstAdapterT CConstAdapterT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}	<BR>
+				{@link TNB::ISequenceCollectionT ISequenceCollectionT}</td>
+			<td>別の方法で確保したメモリブロックをコレクションインターフェースに対応させるアダプタクラスです。<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>×</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CConstOffsetAdapterT CConstOffsetAdapterT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		</td>
+			<td>指定コレクションの一部を参照するためのアダプタです。	<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::COffsetAdapterT COffsetAdapterT}			</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		<BR>
+				{@link TNB::ICollectionT ICollectionT}					</td>
+			<td>指定コレクションの一部を操作するためのアダプタです。	<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CConstReverseAdapterT CConstReverseAdapterT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		</td>
+			<td>指定コレクションを降順で参照するためのアダプタです。	<BR>
+				検索など、後ろから行いたい時に有効です。				<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CConstAppendAdapterT CConstAppendAdapterT} </td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		</td>
+			<td>同じ要素を持つ二つの指定コレクションを連結して参照するためのアダプタです。	<BR>
+				実体は変化しません。一時的に連結して検索したい時などに有効です。				<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CMapT::CConstKeysAdapter CMapT::CConstKeysAdapter}</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		</td>
+			<td>{@link TNB::CMapT CMapT}のキーだけをコレクションとして参照するためのアダプタです。	<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CMapT::CConstValuesAdapter CMapT::CConstValuesAdapter}</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		</td>
+			<td>{@link TNB::CMapT CMapT}の値だけをコレクションとして参照するためのアダプタです。	<BR>
+				※複製は「○」になっていますが、情報は複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CIndexAdapterT CIndexAdapterT}			</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		</td>
+			<td>Index変換テーブルを持ち、指定コレクションを操作せず、ソートおよび
+				操作するためのアダプタです。 SortメソッドとSwapメソッドを持っています。	<BR>
+			<td>×</td>
+			<td>○</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CReaderAdapter CReaderAdapter}</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		</td>
+			<td>IReader をコレクションに変換するアダプタです。			<BR>
+				型は BYTE 固定になっています。						<BR>
+				※複製は「○」になっていますが、ファイルは複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>×</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CWriterAdapter CWriterAdapter}</td>
+			<td>{@link TNB::IConstCollectionT IConstCollectionT}		<BR>
+				{@link TNB::ICollectionT ICollectionT}					</td>
+			<td>IWriter をコレクションに変換するアダプタです。<BR>
+				型は BYTE 固定になっています。						<BR>
+				※複製は「○」になっていますが、ファイルは複製されずに、共有されるだけになります。</td>
+			<td>○*</td>
+			<td>×</td>
+		</tr>
+		<tr><td>-- 以下、参考--</td></tr>
+		<tr>
+			<td>{@link TNB::CTreeT CTreeT} </td>
+			<td> - </td>
+			<td>インターフェースは持っていませんが、操作的には近いものが有りますのでここに含めます。<BR>
+				キー型と値型を指定し、値をTREE状に管理できます。</td>
+			<td>○</td>
+			<td>○</td>
+		</tr>
+		</table>
+ */
+
+/**
+		@defgroup TREE			ツリー関係
+			@ingroup COLLECT
+	\par
+	\par
+				指定の型をツリーでコレクションするクラスです。
+
+		@defgroup DBASE			DBase関係
+			@ingroup COLLECT
+	\par
+	\par
+				複数のフィールドに沿った複数のレコードをコレクションするクラスです。
+
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup COMMUNICATION	通信関係
+
+	\par
+		{@link TNB::ICommunication ICommunication} を実装した通信クラスを数種類用意して有ります。
+		これらはほぼ同じ構造で使用できます。
+	\par
+		{@link TNB::CCommunicationReporterT CCommunicationReporterT} を使用すると、
+		{@link REPORT レポータ関係}のインターフェースにも対応可能です。
+
+	\par
+		通信クラス
+		<table>
+		<tr>
+			<td>クラス名</td>
+			<td>タイプ</td>
+			<td>送信</td>
+			<td>受信</td>
+			<td>内容</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CRs232c CRs232c}</td>
+			<td>RS-232C</td>
+			<td>○</td>
+			<td>○</td>
+			<td>シリアルポートに対する送受信をサポートします。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CPipe CPipe}</td>
+			<td>パイプ</td>
+			<td>○</td>
+			<td>○</td>
+			<td>パイプを使用した通信をサポートします。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CFileCommunicator CFileCommunicator}</td>
+			<td>{@link TNB::IWriter IWriter} , {@link TNB::IReader IReader}</td>
+			<td>○</td>
+			<td>○</td>
+			<td>{@link TNB::IWriter IWriter} , {@link TNB::IReader IReader}を
+				本インターフェースに対応することが出来ます。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CUsbHid CUsbHid}</td>
+			<td>USB-HID</td>
+			<td>○</td>
+			<td>○</td>
+			<td>USB の HIDクラスのデバイスとの通信が出来ます。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CTemporaryBytes CTemporaryBytes}</td>
+			<td>Memory</td>
+			<td>○</td>
+			<td>○</td>
+			<td>送信で本クラスの保持するメモリにプールします。
+				対向のインターフェースも本クラスで持っています。<BR>
+				主にテスト用途です。</td>
+		</tr>
+		</table>
+		<BR>
+ */
+
+/**
+		@defgroup REPORT		レポータ関係
+			@ingroup COMMUNICATION
+		\par
+		\par
+			{@link TNB::IReport IReport} は、Send,Receive をサポートしています。
+			共通の Listener か各クラス専用の Listener を使用し、受信を行います。
+			{@link TNB::IReport IReport} を使うクラスも多数あります。
+
+	\par
+		レポータクラス
+		<table>
+		<tr>
+			<td>クラス名</td>
+			<td>リスナー名</td>
+			<td>タイプ</td>
+			<td>送信</td>
+			<td>受信</td>
+			<td>内容</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSocketServer CSocketServer}</td>
+			<td>{@link TNB::CAbstractSocket::IListener CSocketServer::IListener}<BR>
+				{@link TNB::IReport::IListener IReport::IListener}</td>
+			<td>TCP/IP</td>
+			<td>○</td>
+			<td>○</td>
+			<td>Winsockを利用したTCP/IP通信をサポートします。<BR>
+				本クラスはサーバとしてオープンし、クライアントからの接続を待ちます。<BR>
+				マルチクライアントをサポートしています。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSocketClient CSocketClient}</td>
+			<td>{@link TNB::CAbstractSocket::IListener CSocketClient::IListener}<BR>
+				{@link TNB::IReport::IListener IReport::IListener}</td>
+			<td>TCP/IP</td>
+			<td>○</td>
+			<td>○</td>
+			<td>Winsockを利用したTCP/IP通信をサポートします。<BR>
+				本クラスはクライアントとしてオープンします。<BR>
+				サーバへの自動再接続もサポートしています。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSocketUdp CSocketUdp}</td>
+			<td>{@link TNB::CAbstractSocket::IListener CSocketUdp::IListener}<BR>
+				{@link TNB::IReport::IListener IReport::IListener}</td>
+			<td>UDP/IP</td>
+			<td>○</td>
+			<td>○</td>
+			<td>Winsockを利用したUDP/IP通信をサポートします。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CCommunicationReporterT CCommunicationReporterT}</td>
+			<td>{@link TNB::IReport::IListener IReport::IListener}</td>
+			<td>任意</td>
+			<td>○</td>
+			<td>○</td>
+			<td>{@link TNB::ICommunication ICommunication} を持つクラスのラッパです。</td>
+		</tr>
+		</table>
+ */
+
+/**
+		@defgroup SOCKET		SOCKET関係
+			@ingroup COMMUNICATION
+		\par
+		\par
+			WINSOCK をラップしたクラスがあります。 {@link TNB::IReport IReport} を実装しているクラスもあります。
+
+ */
+
+/**
+		@defgroup MAIL		メール関係
+			@ingroup REPORT
+		\par
+		\par
+			このグループは、メールの送受信に関係するクラスがあります。
+ */
+
+/**
+		@defgroup USB			USB関係
+			@ingroup COMMUNICATION
+
+ */
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup FILE			ファイル関係
+　
+	\par 
+		ファイルアクセス関係のインターフェースとして、 {@link TNB::IReader IReader}(デシリアライズ対応)、
+		{@link TNB::IWriter IWriter}(シリアライズ対応)があります。<BR>
+		これらを実装しているクラスは、ファイルシステム以外に、{@link TNB::CFtpFileReader FTPファイル}、
+		{@link TNB::CHttpFileReader HTTPファイル}、{@link TNB::CArchiveFileReader アーカイブ内ファイル}、
+		{@link TNB::CLikenMemToFile メモリ}などがあります。
+	\par
+		他、ファイルシステム操作系のクラスが、多種用意してあります（以下は数例）。
+
+	\par 
+		<table>
+		<tr>
+			<td>クラス名</td>
+			<td>内容</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CFileName CFileName}</td>
+			<td>ファイル名を管理し、そのファイル(ディレクトリ)に対しての操作を行なうメソッドがあります
+				削除や日付の操作、読込など）。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CAsyncWriter CAsyncWriter}</td>
+			<td>ファイルをスレッドにて非同期に書き込み処理を行うことが出来ます
+				（メインスレッドは依頼しただけですぐに次の処理に移れます）。<BR>
+				{@link TNB::CAsyncWriter::ICommand ICommand}を実装することで、
+				さまざまなファイルアクセス処理をスレッドで行うことも出来ます。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CConstFileMapping CConstFileMapping} </td>
+			<td>ファイルを一つの型の配列としてメモリ上に配置するクラスです。<BR>
+				コレクションインターフェースも持っており、ランダムアクセスも容易です。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CFileMapping CFileMapping} </td>
+			<td>ファイルを一つの型の配列としてメモリ上に配置するクラスです。<BR>
+				コレクションインターフェースも持っており、ファイルのサイズ変更も
+				サポートしています(ただし遅い)。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CDirectoryWatcher CDirectoryWatcher} </td>
+			<td>一つのディレクトリを指定することで、その中のファイルの変化を監視することが可能です。</td>
+		</tr>
+		</table>
+ */
+
+/**
+		@defgroup ARCHIVEFILE		アーカイブファイル関係
+			@ingroup FILE
+		\par
+		\par
+			<a class="el" href="http://www.csdinc.co.jp/archiver/">統合アーカイバプロジェクト</a>の DLL を
+			サポートするクラスが用意してあります。
+ */
+
+/**
+		@defgroup PRIMOBURNER		PrimoBurner 関係
+			@ingroup FILE
+		\par
+		\par
+			<a class="el" href="http://www.hpcde.com/default.aspx"> PrimoBurner</a>を使った、
+			CD-R/RW,DVD±R/RW の書込みをサポートするクラスが用意してあります。
+ */
+
+ 
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup SERIALIZE			シリアライズ関係
+　
+	\par 
+		シリアライズとは、扱っているデータを丸ごと、ファイルで保存したりネットワークで送受信することが
+		できるように変換することです。
+		デシリアライズとは、シリアライズされたデータを、データ形式に復元することです。
+	\par
+		基本型(int や double)、
+		{@link TNB::ISerializable シリアライザブルインターフェース}を実装しているクラスは、
+		{@link TNB::ISerializer ISerializer}を実装しているクラスで、シリアライズ可能であり、
+		{@link TNB::IDeserializer IDeserializer}を実装しているクラスで、デシリアライズ可能です。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup ACCESSOR	情報アクセス関係
+
+	\par
+		キーとなる文字列と、それに対する値を対にして管理するためのクラス群です（例えば、 INIファイルやレジストリ）。
+		これらは全て{@link TNB::IAccessor IAccessor} を実装しており、
+		（オープンの仕方は異なりますが）アクセス方法は同じになります。\n
+	\par
+		いずれもサブセクション（セクション内のセクションのこと。階層で管理できる）をサポートします。
+
+	\par
+		{@link TNB::IAccessor IAccessor} を実装したクラス
+		<table>
+		<tr>
+			<td>クラス名</td>
+			<td>タイプ</td>
+			<td>備考</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CInifileAccessor CInifileAccessor}</td>
+			<td>INIファイル</td>
+			<td>通常のINIファイルです。UNICODE タイプもサポートします。
+				情報の型は記憶しません。
+				記録自体は文字列で行い、取得時に指定の型に変換します。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CExInifileAccessor CExInifileAccessor}</td>
+			<td>INIファイル</td>
+			<td>情報の型を記憶します。そのため、本クラス以外で対象のINIファイルにはアクセスできません。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CCipherableFileAccessor CCipherableFileAccessor}</td>
+			<td>Cipherファイル</td>
+			<td>情報の型を記憶します。ファイルを暗号化し、他のエディタ等でも読めないようします。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CRegistryAccessor CRegistryAccessor}</td>
+			<td>レジストリ</td>
+			<td>情報の型を記憶します。Windows のレジストリを対象にします。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CTemporaryAccessor CTemporaryAccessor}</td>
+			<td>メモリ</td>
+			<td>情報の型を記憶します。メモリ上に記憶するので、インスタンスがなくなると情報はなくなります。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CCeInifileAccessor CCeInifileAccessor}</td>
+			<td>INIファイル</td>
+			<td>CE では CInifileAccessor は、このクラスに置き換えられます。</td>
+		</tr>
+		</table>
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup THREAD	 スレッド関係
+
+		\par
+			スレッド処理を容易に出来るように以下のクラスを用意して有ります。
+
+		\par
+			<table>
+			<tr>
+				<td>クラス名</td>
+				<td>リスナー名/ランナー名</td>
+				<td>内容</td>
+			</tr>
+			<tr>
+				<td>{@link TNB::CThread CThread}</td>
+				<td>{@link TNB::CThread::IRunner CThread::IRunner}</td>
+				<td>{@link TNB::CThread::IRunner IRunner}を実装し、スレッドで動かしたい処理を
+					{@link TNB::CThread::IRunner::Run() Run()} に記述します。<BR>
+					停止など{@link TNB::CThread CThread}から操作、確認できます。</td>
+			</tr>
+			<tr>
+				<td>{@link TNB::CThreadlet CThreadlet}</td>
+				<td>{@link TNB::CThreadlet::IRunner CThreadlet::IRunner}</td>
+				<td>{@link TNB::CThreadlet::IRunner IRunner}を実装し、スレッドで動かしたい処理を 
+					{@link TNB::CThreadlet::IRunner::Run() Run()} に記述します。<BR>
+					{@link TNB::CThreadlet CThreadlet}自体は実体がなく、スレッドが終わるとオブジェクトが破棄されるようになっています。</td>
+			</tr>
+			<tr>
+				<td>{@link TNB::CThreadDispatch CThreadDispatch}</td>
+				<td>{@link TNB::CThreadDispatch::IListener CThreadDispatch::IListener}</td>
+				<td>{@link TNB::CThreadDispatch::IListener IListener}を実装し、スレッドを作成すると、
+					メッセージキューが用意されます。他のスレッドからは PostMessage を使って処理を依頼する形の機構が容易に構築できます。</td>
+			</tr>
+			<tr>
+				<td>{@link TNB::CTimerDispatch CTimerDispatch}</td>
+				<td>{@link TNB::CTimerDispatch::IListener CTimerDispatch::IListener}</td>
+				<td>時間による処理を依頼することが出来るようになっています。<BR>
+					Windowを使わないタイマー処理が実現できます。 </td>
+			</tr>
+			</table>
+ */
+
+
+ 
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup SYNC			排他関係
+　
+	\par 
+		排他管理クラスを数種類用意して有ります。
+		{@link TNB::ISynchronized ISynchronized}を実装したクラスは、{@link TNB::EXCLUSIVE EXCLUSIVE} マクロや 
+		{@link TNB::SYNCBLOCK SYNCBLOCK} マクロで、容易にブロック排他が可能です。<BR>
+		二つのスレッドで同時にオブジェクトを交換する {@link TNB::CExchangerT CExchangerT} クラスや、
+		Javaライクな {@link TNB::CCyclicBarrier CCyclicBarrier} クラスも有ります。<BR>
+		{@link TNB::SINGLETON_CONSTRUCTOR SINGLETON_CONSTRUCTOR} マクロを使うことで、
+		スレッドセーブにシングルトンを実現することも出来ます。<BR>
+	\par
+		{@link TNB::ISynchronized ISynchronized} を実装したクラス
+		<table>
+		<tr>
+			<td>クラス名</td>
+			<td>タイプ</td>
+			<td>処理速度</td>
+			<td>プロセス間</td>
+			<td>同一スレッド</td>
+			<td>タイムアウト</td>
+			<td>カウンタ</td>
+			<td>備考</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncSection CSyncSection}</td>
+			<td>CriticalSection</td>
+			<td>Fast</td>
+			<td>No</td>
+			<td>No ※1</td>
+			<td>No</td>
+			<td>No</td>
+			<td>同一プロセス内で処理（特に関数）の排他を行うの向いています。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncSectionEx CSyncSectionEx}</td>
+			<td>CriticalSection<BR>(NT専用)</td>
+			<td>Fast</td>
+			<td>No</td>
+			<td>No ※1</td>
+			<td>Yes</td>
+			<td>No</td>
+			<td>同一プロセス内で処理（特に関数）の排他を行うの向いています。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncMutex CSyncMutex}</td>
+			<td>Mutex</td>
+			<td>Slow</td>
+			<td>Yes</td>
+			<td>No ※1</td>
+			<td>Yes</td>
+			<td>No</td>
+			<td>別プロセス間で処理の排他を行うのに向いています。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncSemaphore CSyncSemaphore}</td>
+			<td>Semaphore</td>
+			<td>Slow</td>
+			<td>Yes</td>
+			<td>No</td>
+			<td>Yes</td>
+			<td>Yes</td>
+			<td>限られた数のユーザーしかサポートできない共有リソースへのアクセスを制御するのに有用です。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncEvent CSyncEvent}</td>
+			<td>Event</td>
+			<td>Slow</td>
+			<td>Yes</td>
+			<td>Yes</td>
+			<td>Yes</td>
+			<td>No</td>
+			<td>別スレッドあるいは別プロセスで処理の同期を取るのに向いています。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncCounter CSyncCounter}</td>
+			<td>Counter</td>
+			<td>Fast</td>
+			<td>No</td>
+			<td>Yes</td>
+			<td>Yes ※2</td>
+			<td>Yes</td>
+			<td>カウンタで排他処理をします。処理中なら処理しない、という排他処理に向いています。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncMetered CSyncMetered}</td>
+			<td>MeteredSection</td>
+			<td>Fast</td>
+			<td>Yes</td>
+			<td>Yes</td>
+			<td>Yes</td>
+			<td>Yes</td>
+			<td>カウンタも持つ、別プロセスでも使用可能な高速なオブジェクトです。</td>
+		</tr>
+		<tr>
+			<td>{@link TNB::CSyncDummy CSyncDummy}</td>
+			<td>ダミー</td>
+			<td>VeryFast</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>排他しません。排他Objectが必須で排他が必要でない時に使用します。</td>
+		</tr>
+		</table>
+		※1;Nest Lock/Unlock になります。
+		※2;Time0以外は、ポーリング監視するため、多少の負荷、ラグがあります。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup TIME			タイム関係
+　
+	\par 
+		時間の値を扱うクラスと、タイマーを扱うクラスを数種用意してあります。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup LAYOUT			レイアウト関係
+
+	\par
+		レイアウトを定義するためのインターフェースを実装しているクラスが数種類あります。
+		また、そのインターフェースを使って、ダイアログのコントロールをレイアウトするクラスがあります。
+
+		\n● ILayout を実装しているクラス（レイアウトアイテム）\n\n
+			レイアウトには、大きく２つの種類があります。
+			一つは、実際のアイテムを管理するものです。もう一つは、別の複数のレイアウトアイテムを配置するものです。
+			後者のレイアウトにより、色々な種類のレイアウトを組み合わせて、目的にあった自由なものを用意することが出来ます。
+
+		- ボーダーレイアウト ( CBorderLayout )\n
+		東西南北、中央に配置することが出来るレイアウトアイテムです。
+		\code
+		┌－－－－－－－－－－－－－－－－┐
+		ｌ┏──────────────┓ｌ
+		ｌ┃　　　　　北（上）　　　　　┃ｌ
+		ｌ┣━━━━┳────┳━━━━┫ｌ
+		ｌ│　西　　│　中央　│　東　　│ｌ
+		ｌ│　（左）│　　　　│　（右）│ｌ
+		ｌ┣━━━━┻────┻━━━━┫ｌ
+		ｌ┃　　　　　南（下）　　　　　┃ｌ
+		ｌ┗──────────────┛ｌ
+		└－－－－－－－－－－－－－－－－┘
+		※全部の位置に配置する必要はありません。
+		\endcode
+
+		- ボックスレイアウト ( CBoxLayout )\n
+		縦か横、一列に複数並べることが出来るレイアウトアイテムです。
+		\code
+		ex) 最後を可変にして、横に７つ並べた場合
+		┌－－－－－－－－－－－－－－－－－－－－－－－┐
+		ｌ┏━━┳━━┳━━┳━━┳━━┳━━━┳──┓ｌ
+		ｌ│　１│２　│　　│　　│　　│　　　│７　│ｌ
+		ｌ│　　│　　│３　│４　│５　│　６　│　　│ｌ
+		ｌ┗━━┻━━┻━━┻━━┻━━┻━━━┻──┛ｌ
+		└－－－－－－－－－－－－－－－－－－－－－－－┘
+		ex) 最後を固定にし、縦に３つ並べた場合
+		┌－－－－－－－┐
+		ｌ┏─────┓ｌ
+		ｌ┃　　１　　┃ｌ
+		ｌ┣─────┫ｌ
+		ｌ┃　　２　　┃ｌ
+		ｌ┣─────┫ｌ
+		ｌ┃　　３　　┃ｌ
+		ｌ┗─────┛ｌ
+		ｌ　　　　　　　ｌ
+		ｌ　　　　　　　ｌ
+		└－－－－－－－┘
+		\endcode
+
+		- フローレイアウト ( CFlowLayout )\n
+		左から右へ順に配置出来るレイアウトです。一列に配置しきれなくなったら、改行して配置します。
+		\code
+		┌－－－－－－－－－－－－－－－－┐
+		ｌ┏━━┳━━━┳━━━━┳━━┓ｌ
+		ｌ┃１　┃　２　┃　３　　┃４　┃ｌ
+		ｌ┣━━┻┳━━┻┳━━┳┻━━┛ｌ
+		ｌ┃　５　┃６　　┃７　┃　　　　ｌ
+		ｌ┣━━━┻━━━┻┳━┛　　　　ｌ
+		ｌ┃　８　　　　　　┃　　　　　　ｌ
+		ｌ┗━━━━━━━━┛　　　　　　ｌ
+		ｌ　　　　　　　　　　　　　　　　ｌ←同じレイアウト定義でも、幅によって配置が変る。
+		└－－－－－－－－－－－－－－－－┘　↓
+		┌－－－－－－－－－－－－－－－－－－－－┐
+		ｌ┏━━┳━━━┳━━━━┳━━┳━━━┓ｌ
+		ｌ┃１　┃　２　┃　３　　┃４　┃　５　┃ｌ
+		ｌ┣━━┻┳━━╋━━━━┻━━┻┳━━┛ｌ
+		ｌ┃６　　┃７　┃　８　　　　　　┃　　　ｌ
+		ｌ┗━━━┻━━┻━━━━━━━━┛　　　ｌ
+		ｌ　　　　　　　　　　　　　　　　　　　　ｌ
+		ｌ　　　　　　　　　　　　　　　　　　　　ｌ
+		ｌ　　　　　　　　　　　　　　　　　　　　ｌ
+		└－－－－－－－－－－－－－－－－－－－－┘
+		\endcode
+
+		- グリッドレイアウト ( CGridLayout )\n
+		左上から格子状に配置出来るレイアウトです。最初に横に並べる数を指定します。
+		\code
+		ex) 横３つの場合
+		┌－－－－－－－－－－－－－┐
+		ｌ┏───┳───┳───┓ｌ
+		ｌ┃　　１┃　２　┃　３　┃ｌ
+		ｌ┣───╋───╋───┫ｌ
+		ｌ┃４　　┃　５　┃６　　┃ｌ
+		ｌ┣───╋───╋───┛ｌ
+		ｌ┃　７　┃　　８┃　　　　ｌ
+		ｌ┗───┻───┛　　　　ｌ
+		ｌ　　　　　　　　　　　　　ｌ
+		ｌ　　　　　　　　　　　　　ｌ
+		└－－－－－－－－－－－－－┘
+		\endcode
+		
+		- レシオレイアウト ( CRatioLayout )\n
+		２つのレイアウトアイテム縦か横に配置するレイアウトアイテムです。
+		左側の幅、あるいは、上側の高さを比率（パーセント）で指定できます。
+		\code
+		ex) 横並びの場合
+		┌－－－－－－－－－┐
+		ｌ┏───┳───┓ｌ
+		ｌ│　１　│　２　│ｌ
+		ｌ┗───┻───┛ｌ
+		└－－－－－－－－－┘
+		ex) 縦並びの場合
+		┌－－－－－┐
+		ｌ┏───┓ｌ
+		ｌ│　１　│ｌ
+		ｌ┣───┫ｌ
+		ｌ│　２　│ｌ
+		ｌ┗───┛ｌ
+		└－－－－－┘
+		\endcode
+
+		- オーバーレイレイアウト ( COverlayLayout )\n
+		複数のレイアウトアイテムを重なり合うように配置することが出来ます。 
+		グループボックスとその中のアイテムを配置したり、それぞれを Show/Hide させ、ページのように使う場合に適しています。
+		\code
+		┌－－－－－┐
+		ｌ┏───┓ｌ１,２,３、共に同じ場所で同じ大きさになります。
+		ｌ│　１　│ｌ
+		ｌ│（２）│ｌ
+		ｌ│（３）│ｌ
+		ｌ┗───┛ｌ
+		└－－－－－┘
+		※各レイアウトのサイズは、全体のサイズと同じなります。
+		\endcode
+
+		- グループレイアウト ( CGroupLayout )\n
+
+
+
+
+
+		- ワイドレイアウト ( CWideLayout )\n
+		スクリーンの状態により、２つのレイアウトアイテムの並びを縦か横にすることが出来ます。
+		Windows Moblie でコントロールの配置を目的としたものです。
+		\code
+		ex) 画面が縦長の時
+		┌－－－－－－－－－┐
+		ｌ┏───┳───┓ｌ
+		ｌ│　１　│　２　│ｌ
+		ｌ┗───┻───┛ｌ
+		└－－－－－－－－－┘
+		ex) 画面が横長の時
+		┌－－－－－┐
+		ｌ┏───┓ｌ
+		ｌ│　１　│ｌ
+		ｌ┣───┫ｌ
+		ｌ│　２　│ｌ
+		ｌ┗───┛ｌ
+		└－－－－－┘
+		\endcode
+
+		- レイアウトスペーサー ( CLayoutSpacer )\n
+		大きさのみを持つレイアウトです。スペーサーとして使用します。
+
+		- コントロールレイアウトアイテムクラス ( {@link MFC::CControlLayoutItem CControlLayoutItem} )\n
+		一つのコントロール(HWND)を保持するレイアウトアイテムです。他のレイアウトアイテムは持ちません。
+		末端のレイアウトアイテムにこのクラスを使い、トップのレイアウトアイテムを {@link MFC::CLayoutDialog CLayoutDialog } 
+		に渡すことでダイアログのリサイズ時、ダイナミックにコントロール配置をすることが出来ます。
+
+		\n● ILayout を使うクラス（レイアウト管理）\n\n
+			現在 ILayout クラスを使うクラスは、 {@link MFC::CLayoutDialog CLayoutDialog }のみです。
+
+		- レイアウトダイアログ ( {@link MFC::CLayoutDialog CLayoutDialog } )\n
+			末端のレイアウトアイテムに {@link MFC::CControlLayoutItem CControlLayoutItem} を使い、
+			トップのレイアウトアイテムをこのクラスに渡すことで
+			ダイアログのリサイズ時、ダイナミックにコントロール配置をすることが出来ます。
+			また、同時に、Zオーダも設定できます。
+
+*/
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup MEMORY			メモリ関係
+
+	\par
+		メモリを確保するためのクラスが数種類あります。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup CIPHER			暗号関係
+
+	\par
+		情報を暗号化、復号化するためのクラスが数種類あります。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup EXCEPTION		例外関係
+
+	\par
+		TNB Library で使用される例外クラスがあります。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup WINAPI			Windows API関係
+
+		@defgroup MFC			MFC関係
+			@ingroup WINAPI
+			MFCを拡張しているクラス群です。
+
+
+		@defgroup MFCCONTROL	MFC-ウィンドウ/コントロール関係
+			@ingroup WINAPI
+			MFCコントロールクラス群です。
+
+
+		@defgroup BITMAP		ビットマップ関係
+			@ingroup WINAPI
+			BITMAPを管理、操作、表示するためのクラス群です。
+
+			@defgroup ANIMATE		アニメ関係
+				@ingroup BITMAP
+				アニメを管理、操作、表示するためのクラス群です。
+
+
+		@defgroup ICON			アイコン関係
+			@ingroup WINAPI
+			アイコン、カーソルを操作、表示するためのクラス群です。
+
+
+		@defgroup GDIPLUS		GDI＋関係
+			@ingroup WINAPI
+			GDI+ をラップしているクラスがあります。
+
+
+		@defgroup DRAWABLE		描画情報関係
+			@ingroup WINAPI
+			描画情報関係のクラス群です。
+
+
+		@defgroup CLIPBOARD		クリップボード関係
+			@ingroup WINAPI
+
+
+		@defgroup RAS			リモートアクセス（RAS）関係
+			@ingroup WINAPI
+
+
+		@defgroup INTERNET		WinInet関係
+			@ingroup WINAPI
+
+
+		@defgroup DIRECTX		DirectX関係
+			@ingroup WINAPI
+
+
+		@defgroup AUDIO			Audio関係
+			@ingroup WINAPI
+
+
+		@defgroup XML			XMLパーサ関係
+			@ingroup WINAPI
+			MSXML をラップしているクラス群です。
+			
+				まず、 CXmlDocument から始めます。 
+	
+		@defgroup WINCE			Windows CE関係
+			@ingroup WINAPI
+			Windows CE用のクラス群です。
+			
+			@defgroup CEBLUETOOTH	Bluetooth（CE）関係
+ 				@ingroup WINCE
+				CEの Bluetooth 関係のクラス群です。
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup ETC			その他
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup NEWDEL			NEW/DELETE関係
+
+ */
+
+
+
+//----------------------------------------------------------------------------------------------
+
+
+
+/**@defgroup ITERATOR	（反復子有り）
+　
+	\par
+		反復子(イテレータ)でアクセス可能なクラス群です。
+		反復子取得のために各クラスに begin() / end() メソッドが用意されています。
+		また、STLアルゴリズムに対応できるように、 push_back() / push_front() / insert() 
+		のメソッドが用意されているクラスもあります。
+		<BR>(小文字で始まっているのは、STLのアルゴリズムに対応するためです)
+	\par
+		反復子は、 iterator と const_iterator があります。
+
+	@note	インターフェースである IConstCollectionT , ICollectionT でも
+			反復子は使用可能ですが、使用出来ないサブクラスや、パフォーマンスが
+			落ちるサブクラスが有ります。	<BR>
+			宣言したクラスの反復子を使用するようにしてください。
+
+	@par使用例:
+	<table><tr><td><pre>
+
+		CVectorT<BYTE> vb;
+		    ;
+		CVectorT<BYTE>::iterator i;
+		for ( i = vb.begin(); i != vb.end(); i++ )			
+		{
+		    *i = 0xFF;
+		};
+	</pre></td></tr></table>
+ 
+		@defgroup ITERATOR_	反復子
+			@ingroup ITERATOR
+		iterator と const_iterator があります。
+		STL の アルゴリズムに適用可能です。
+ */
+
+/**@ingroup ITERATOR_
+ * ランダムアクセスイテレータ.
+ *		ランダムアクセス可能なイテレータです。
+ *		operator++、operator--、operator+、operator-、operator+=、operator-=、
+ *		operator*、operator[]、operator-> の他、operator== など比較演算が使用可能です。
+ *
+ *		STL の アルゴリズムに適用可能です。
+ */
+class iterator{};
+
+/**@ingroup ITERATOR_
+ * インプットイテレータ.
+ *		入力(読み込み)専用イテレータです。
+ *		operator++、operator*、operator->、operator==、operator!= が使用可能です。
+ *
+ *		STL の アルゴリズムに適用可能です。
+ */
+class const_iterator{};
+
+
+
+}; // TNB
+
+
+
+/**
+ * ウィンドウ管理.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CWnd
+{
+public:
+	/**
+	 * [取得] ウィンドウハンドル取得.
+	 *		本インスタンスが管理しているウィンドウのハンドルを返します。
+	 *	@return ウィンドウハンドル
+	 */
+	HWND GetSafeHwnd(void) const;
+	/**
+	 * [取得] ウィンドウスタイル取得.
+	 *		本インスタンスが管理しているウィンドウのスタイルを返します。
+	 *	@return ウィンドウスタイル。 WS_CHILD や WS_MINIMIZE などのシンボルが論理和(or)されている。
+	 */
+	DWORD GetStyle(void) const;
+	/**
+	 * [取得] ウィンドウ拡張スタイル取得.
+	 *		本インスタンスが管理しているウィンドウの拡張スタイルを返します。
+	 *	@return ウィンドウスタイル。 WS_EX_LEFT や WS_EX_TOPMOST などのシンボルが論理和(or)されている。
+	 */
+	DWORD GetExStyle(void) const;
+	/**
+	 * [設定] ウィンドウスタイル変更.
+	 *	@param dwRemove 除去するスタイルを指定する。
+	 *	@param dwAdd 追加するスタイルを指定する。
+	 *	@param nFlags SetWindowPos() に渡すフラグ。０なら SetWindowPos() を呼びません。
+	 *	@retval TRUE 成功.
+	 *	@retval FALSE 失敗.
+	 */
+	BOOL ModifyStyle(DWORD dwRemove, DWORD dwAdd, UINT nFlags = 0);
+	/**
+	 * [設定] ウィンドウ拡張スタイル変更.
+	 *	@param dwRemove 除去する拡張スタイルを指定する。
+	 *	@param dwAdd 追加する拡張スタイルを指定する。
+	 *	@param nFlags SetWindowPos() に渡すフラグ。０なら SetWindowPos() を呼びません。
+	 *	@retval TRUE 成功.
+	 *	@retval FALSE 失敗.
+	 */
+	BOOL ModifyStyleEx(DWORD dwRemove, DWORD dwAdd, UINT nFlags = 0);
+	/**
+	 * [設定] ウィンドウサイズポジション設定.
+	 *		子ウィンドウ、ポップアップ ウィンドウ、およびトップレベル ウィンドウのサイズ、位置、および Z オーダーを変更します。
+	 *	@param pWndInsertAfter Z オーダーでこの CWnd オブジェクトより前に配置される CWnd オブジェクトを識別します。このパラメータへは、 CWnd へのポインタか
+	 *					次の値のいずれか 1 つを指定できます。\n
+	 *					- wndBottom ウィンドウを Z オーダーの一番下に置きます。この CWnd が最上位のウィンドウの場合、ウィンドウの最上位ステータスは失われます。
+	 *								システムでは、このウィンドウをほかのすべてのウィンドウよりも下に置きます。\n
+	 *					- wndTop ウィンドウを Z オーダーの先頭に置きます。
+	 *					- wndTopMost ウィンドウを最上位でないすべてのウィンドウの上に置きます。
+	 *								ウィンドウは、非アクティブになったときも、最上位の位置を保持します。
+	 *					- wndNoTopMost ウィンドウを最上位でないすべてのウィンドウの先頭に再配置します (つまり、一番手前のすべてのウィンドウの後ろに置きます)。
+	 *								ウィンドウが既に非最上位ウィンドウとなっているときは、このフラグは無効です。
+	 *	@param x ウィンドウの新しい左辺の位置を指定します。
+	 *	@param y ウィンドウの新しい上辺の位置を指定します。
+	 *	@param cx ウィンドウの新しい幅を指定します。
+	 *	@param cy ウィンドウの新しい高さを指定します。
+	 *	@param nFlags サイズ変更オプションおよび位置指定オプションを指定します。このパラメータには、次の値を組み合わせて指定できます。
+	 *				- SWP_DRAWFRAME   ウィンドウの周りにフレーム (ウィンドウ作成時に定義されます) を描画します。
+	 *				- SWP_FRAMECHANGED   ウィンドウのサイズが変化されていない場合でも、ウィンドウに WM_NCCALCSIZE メッセージを送信します。このフラグが指定されていない場合、WM_NCCALCSIZE メッセージはウィンドウのサイズが実際に変化しているときにだけ送られます。
+	 *				- SWP_HIDEWINDOW   ウィンドウを非表示にします。
+	 *				- SWP_NOACTIVATE   ウィンドウをアクティブにしません。このフラグが設定されていないと、ウィンドウはアクティブになり、最上位または非最上位のウィンドウ グループのいずれかの先頭に移動されます (パラメータ pWndInsertAfter の設定に依存します)。
+	 *				- SWP_NOCOPYBITS   クライアント領域の内容全体を破棄します。このフラグが指定されていない場合、クライアント領域の有効な内容はすべて保存されます。保存された内容は、ウィンドウのサイズや位置が再び変更されたときにクライアント領域に復元されます。
+	 *				- SWP_NOMOVE   現在位置を保持します (x パラメータと y パラメータを無視します)。
+	 *				- SWP_NOOWNERZORDER   オーナー ウィンドウの Z オーダーの位置を変更しません。
+	 *				- SWP_NOREDRAW   変更があっても再描画しません。このフラグが設定されていると、どのような種類の再描画も行われません。このことは、クライアント領域、非クライアント領域 (タイトルやスクロール バーを含みます)、ウィンドウが移動したことにより覆われない親ウィンドウのあらゆる部分に適用されます。このフラグが設定されているときは、アプリケーションは再描画が必要なウィンドウや親ウィンドウのあらゆる部分を明示的に無効領域または再描画する必要があります。
+	 *				- SWP_NOREPOSITION   SWP_NOOWNERZORDER と同じです。
+	 *				- SWP_NOSENDCHANGING   ウィンドウが WM_WINDOWPOSCHANGING メッセージを受信しないようにします。
+	 *				- SWP_NOSIZE   現在のサイズを保持します (cx パラメータと cy パラメータを無視します)。
+	 *				- SWP_NOZORDER   現在の順序を保持します (pWndInsertAfter を無視します)。
+	 *				- SWP_SHOWWINDOW   ウィンドウを表示します。
+	 *	@retval TRUE 成功.
+	 *	@retval FALSE 失敗.
+	 */
+	BOOL SetWindowPos(const CWnd* pWndInsertAfter, int x, int y, int cx, int cy, UINT nFlags);
+	/**
+	 * [設定] ウィンドウ表示状態.
+	 *	@param nCmdShow CWnd を表示する方法を指定します。次の値のいずれかになります。
+	 *				- SW_HIDE   このウィンドウを非表示にし、他のウィンドウをアクティブにします。
+	 *				- SW_MINIMIZE   ウィンドウを最小化し、システムのリストのトップレベル ウィンドウをアクティブにします。
+	 *				- SW_RESTORE   ウィンドウをアクティブにし、表示します。ウィンドウが最小化または最大化されている場合は、Windows によって元のサイズと位置に戻されます。
+	 *				- SW_SHOW   ウィンドウをアクティブにし、現在のサイズと位置で表示します。
+	 *				- SW_SHOWMAXIMIZED   ウィンドウをアクティブにし、最大表示します。
+	 *				- SW_SHOWMINIMIZED   ウィンドウをアクティブにし、最小化して表示します。
+	 *				- SW_SHOWMINNOACTIVE   ウィンドウを最小化して表示します。現在アクティブなウィンドウはアクティブなまま表示します。
+	 *				- SW_SHOWNA   現在の状態でウィンドウを表示します。現在アクティブなウィンドウはアクティブなまま表示します。
+	 *				- SW_SHOWNOACTIVATE   ウィンドウを直前のサイズと位置で表示します。現在アクティブなウィンドウはアクティブなまま表示します。
+	 *				- SW_SHOWNORMAL   ウィンドウをアクティブにし、表示します。ウィンドウが最小化または最大化されている場合は、Windows によって元のサイズと位置に戻されます。
+	 *	@retval TRUE 成功.
+	 *	@retval FALSE 失敗.
+	 */
+	BOOL ShowWindow(int nCmdShow);
+};
+
+/**
+ * Editコントロール.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CEdit : public CWnd
+{
+public:
+	/// コンストラクタ
+	CEdit(void){}
+};
+
+/**
+ * リストコントロール.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CListCtrl : public CWnd
+{
+public:
+	/// コンストラクタ
+	CListCtrl(void){}
+	/**
+	 * [設定] カラム追加.
+	 *	@param nCol 新しい列のインデックス
+	 *	@param lpszColumnHeading 文字列
+	 *	@param nFormat 列の配置を指定する整数。次の値のどれか 1 つを指定します。LVCFMT_LEFT、LVCFMT_RIGHT、または LVCFMT_CENTER。
+	 *	@param nWidth ピクセル単位の列の幅。このパラメータに -1 を指定すると、列の幅は設定されません。
+	 *	@param nSubItem 列に関連付けられたサブアイテムのインデックス。このパラメータに -1 を指定すると、列に関連付けられるサブアイテムはありません。
+	 *	@retval 0未満 エラー。
+	 *	@retval 0以上 成功。値は新しい列のインデックス。
+	 */
+	int InsertColumn(int nCol, LPCTSTR lpszColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1);
+	/**
+	 * [設定] カラム削除.
+	 *	@param nCol 削除する列のインデックス.
+	 *	@retval TRUE 成功
+	 *	@retval FALSE 失敗
+	 */
+	BOOL DeleteColumn(int nCol);
+	/**
+	 * [設定] 全アイテム削除.
+	 *	@retval TRUE 成功
+	 *	@retval FALSE 失敗.
+	 */
+	BOOL DeleteAllItems(void);
+	/**
+	 * [取得] アイテム数取得.
+	 *	@return アイテム数
+	 */
+	int GetItemCount(void) const;
+	/**
+	 * [設定] アイテム挿入.
+	 *	@param nItem 挿入するアイテムのインデックス.
+	 *	@param lpszItem 文字列
+	 *	@retval 0未満 エラー。
+	 *	@retval 0以上 成功。値は新しいアイテムのインデックス。
+	 */
+	int InsertItem(int nItem, LPCTSTR lpszItem);
+	/**
+	 * [設定] アイテムテキスト設定.
+	 *	@param nItem アイテムのインデックス
+	 *	@param nSubItem サブアイテムのインデックス
+	 *	@param lpszText 文字列
+	 *	@retval TRUE 成功
+	 *	@retval FALSE 失敗.
+	 */
+	BOOL SetItemText(int nItem, int nSubItem, LPCTSTR lpszText);
+	/**
+	 * [設定] アイテム削除.
+	 *	@param nItem 削除するアイテムのインデックス
+	 *	@retval TRUE 成功
+	 *	@retval FALSE 失敗.
+	 */
+	BOOL DeleteItem(int nItem);
+	/**
+	 * [設定] 専用拡張スタイル設定.
+	 *	@param dwNewStyle 使用する専用拡張スタイル。 LVS_EX_FULLROWSELECT や LVS_EX_GRIDLINES を論理和(or)で指定します。
+	 *	@return 以前の拡張スタイル
+	 *	\code
+	 *		m_myListCtrl.SetExtendedStyle(m_myListCtrl.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	 *	\endcode
+	 */
+	DWORD SetExtendedStyle(DWORD dwNewStyle);
+	/**
+	 * [取得] 専用拡張スタイル取得.
+	 *	@return 専用拡張スタイル。 LVS_EX_FULLROWSELECT や LVS_EX_GRIDLINES を論理和(or)したものを返します。
+	 */
+	DWORD GetExtendedStyle(void);
+};
+
+/**
+ * ListBoxコントロール.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CListBox : public CWnd
+{
+public:
+	/// コンストラクタ
+	CListBox(void){}
+};
+
+/**
+ * タブコントロール.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CTabCtrl : public CWnd
+{
+public:
+	/// コンストラクタ
+	CTabCtrl(void){}
+};
+
+/**
+ * ボタンコントロール.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CButton : public CWnd
+{
+public:
+	/// コンストラクタ
+	CButton(void){}
+};
+
+/**
+ * スタティックコントロール.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CStatic : public CWnd
+{
+public:
+	/// コンストラクタ
+	CStatic(void){}
+};
+
+/**
+ * ツリーコントロール.
+ *		MFC のクラスです。
+ *	@attention 本リファレンスでは、一部のメソッドのみ記載しています。
+ *			他のメソッド、及び、詳しい使い方は MSDN を参照してください。
+ */
+class CTreeCtrl : public CWnd
+{
+public:
+	/// コンストラクタ
+	CTreeCtrl(void){}
+};
+
+/**
+ * 最新のエラーコード取得.
+ *		WIN32 API の関数
+ *	@return エラーコード
+ */
+DWORD GetLastError()
+{
+}
+
+/**
+ * 論理オブジェクト削除.
+ *		WIN32 API の関数
+ *	@param hObject オブジェクト
+ *	@return 結果
+ */
+BOOL DeleteObject(HGDIOBJ hObject)
+{
+}
+
+
+#error

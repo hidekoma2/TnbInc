@@ -1,0 +1,190 @@
+#pragma once
+/**
+ *@file
+ * ビットマップ描画コンテナ関係のヘッダ
+ *
+ *	@see TnbDef.h 利用条件、および無保証規定
+ */
+
+
+
+#include "TnbBitmapDrawer.h"
+#include "TnbDrawContainer.h"
+
+
+
+//TNB Library
+namespace TNB
+{
+
+
+
+/**@ingroup BITMAP DRAWING
+ * ビットマップ描画コンテナクラス
+ *
+ *		{@link IDrawing 描画情報}(含むビットマップ)と座標を対に複数保持するクラスです。
+ *
+ *		INDEX で{@link IDrawing 描画情報}を管理することが可能です。
+ *
+ *		管理している{@link IDrawing 描画情報}を、まとめて、デバイスコンテキストに描画することが可能です。
+ *
+ *	@note	本クラスに描画情報を追加する際、相対座標も同時に記憶しているため、
+ *			Draw() で描画時にそれぞれの相対座標に描画することができます。
+ *
+ *	@note	相対座標は、インスタンス生成時は左上（0,0）になっています。
+ *			AddCloneObject() や AddNewPointer() , AddBitmap() , AppendBitmaps() , MoveAppendPosition() , 
+ *			SetAppendPosition() , OffsetAppendPosition() で任意に移動します。
+ *
+ *	@par使用例:
+ *		<table><tr><td><pre>
+ *		//= 宣言
+ *		CBitmapContainer m_bmpc; // コンテナ作成
+ *
+ *		//= 設定
+ *		m_bmpc.AddBitmap("c:\\BMP\\BackTop1.bmp", bc.RIGHT);  //BackTop1.bmp登録後、Offsetを真右に。
+ *		m_bmpc.AddBitmap("c:\\BMP\\BackTop2.bmp", bc.RETURN);  //BackTop2.bmp登録後、Offsetを下の左へ。		
+ *		m_bmpc.AddBitmap("c:\\BMP\\Back.bmp", bc.DOWN);  //Back.bmp登録後、Offsetを真下へ。
+ *		m_bmpc.AddBitmap("c:\\BMP\\BackBottom.bmp");  //BackBottom.bmp登録。
+ *
+ *		//= 表示 (デバイスコンテキストに表示 )
+ *		void CXXX::OnPaint() { 
+ *			CPaintDC dc(this);
+ *			m_bmpc.Draw(dc);
+ *		}
+ *		</pre></td></tr>
+ *
+ *	@par必要ファイル:
+ *			TnbBitmapContainer.h
+ *
+ *	@date 07/11/01 新規作成
+ */
+class CBitmapContainer : public CDrawContainer
+{
+	DEFSUPER(CDrawContainer);
+	//数合わせ
+	class CNullDrawer : public IDrawing
+	{
+	public:
+		/// コンストラクタ
+		CNullDrawer(void) { }
+		/// クローン作成.
+		virtual IDrawing* Clone(void) const { return new CNullDrawer(); }
+		/// サイズ取得.
+		virtual bool GetSize(SIZE& _s) const { _s.cx = 0 ; _s.cy = 0; return true; }
+		/// 領域取得.
+		virtual bool HasRgn(HRGN hRgn) const { return false; }
+		/// ビットマップ取得.
+		virtual CBitmapHandle GetBitmap(void) const { return CBitmapHandle(); }
+		/// 描画.
+		virtual void Draw(HDC dc, int x = 0, int y = 0) const { }
+	};
+public:
+
+	/// コンストラクタ
+	CBitmapContainer(void)
+	{
+	}
+
+	/**
+	 * [取得] ビットマップ取得.
+	 *		本オブジェクトが管理している描画情報をビットマップに描いて返します。
+	 *	@return ビットマップハンドル。もっていない場合、 NULL 状態のハンドルが返ります。
+	 */
+	virtual CBitmapHandle GetBitmap(void) const
+	{
+		return CBitmapDrawer::CreateBitmap(this);
+	}
+
+	/**
+	 * [追加] ビットマップ描画情報追加.
+	 *		追加相対座標に指定の描画情報を関連づけて記憶します。
+	 *	@note 追加した順にインデックス 0, 1, 2, ･･･ と割り振られます。
+	 *	@param bmp ビットマップ。
+	 *	@param dire 移動方向.
+	 *	@retval INVALID_INDEX 失敗。
+	 *	@retval INVALID_INDEX以外 成功。値は、追加したインデックスです。
+	 */
+	INDEX AddBitmap(CBitmapHandle bmp, EDirection dire = DOWN)
+	{
+		return AddNewPointer(new CBitmapDrawer(bmp), dire);
+	}
+
+	/**
+	 * [追加] 一括ビットマップファイル読込み.
+	 *		指定ファイル名に関するビットマップファイルを読み込みます。
+	 *	@note 最初に RemoveAll() が実行されます。
+	 *
+	 *	@par使用例:
+	 *		Back001a.bmp , Back002.bmp , Back004.bmp , Back006_DC.bmp , Back010.bmp のファイルがある場合、
+	 *		以下のコードを実行すると、 INDEX 1 に Back001a.bmp 、INDEX 2 に Back002.bmp 、
+	 *		INDEX 4 に Back004.bmp 、INDEX 6 に Back006_DC.bmp 、INDEX 10 に Back010.bmp が割り当てられます。
+	 *		これらのビットマップハンドルは、 GetAtBitmap() で容易に取り出すことが出来ます。また、 DrawAt() 
+	 *		で容易にデバイスコンテキストに描画も出来ます。
+	 *		<table><tr><td><pre>
+	 *
+	 *		CBitmapContainer m_bmpc; // コンテナ作成
+	 *		m_bmpc.AppendBitmaps("c:\\BMP\\Back%03d*.bmp", 10, bc.DOWN);		
+	 *		</pre></td></tr></table>
+	 *		※上記例で Back001a.bmp , Back001b.bmp がある場合、どちらが読み込まれるかは不定になります
+	 *		（先に検索で見つかったほうが使用されます）。
+	 *
+	 *	@param lpszPath パス名。ファイル名の数字になるところに、 ％d を埋めておきます。
+	 *	@param maxIndex インデックスの最大値。 5 であれば、 0～5 の6個検索します。
+	 *	@param dire 移動方向.
+	 *	@retval マイナス	エラー。
+	 *	@retval 0			一つもなかった
+	 *	@retval 1以上		読み込んだ数。INDEXの最大値は GetCount() で確認してください。
+	 */
+	int AppendBitmaps(LPCTSTR lpszPath, INDEX maxIndex, EDirection dire = DOWN)
+	{
+		RemoveAll();
+		WIN32_FIND_DATA wfd;
+		CWorkMemT<TCHAR> str(MAX_PATH + 1);
+		INDEX lastValidIndex = INVALID_INDEX;
+		int foundCount = 0;
+		loop( i, maxIndex + 1 )
+		{
+			if ( ! STRLIB::PrintF(str, MAX_PATH, lpszPath, i) )
+			{
+				return -1;
+			}
+			IDrawing* pDraw = NULL; 
+			HANDLE hFind = ::FindFirstFile(str, &wfd);
+			if ( hFind != INVALID_HANDLE_VALUE )
+			{
+				::FindClose(hFind);
+				CWorkMemT<TCHAR> s(MAX_PATH + 1);
+				STRLIB::Copy(s, str);
+				int l = STRLIB::PathIndexOf(s) + 1;
+				STRLIB::Copy(&s[l], wfd.cFileName);
+				CBitmapHandle bmp(s);
+				if ( ! bmp.IsNull() )
+				{
+					pDraw = new CBitmapDrawer(bmp);
+					lastValidIndex = i;
+					foundCount++;
+				}
+			}
+			if ( pDraw == NULL )
+			{
+				pDraw = new CNullDrawer();
+			}
+			INDEX idx = AddNewPointer(pDraw, dire);
+			ASSERTLIB( idx == i );
+		}
+		if ( lastValidIndex != INVALID_INDEX )
+		{
+			while ( RemoveAt(lastValidIndex + 1 ));
+		}
+		else
+		{
+			RemoveAll();
+		}
+		return foundCount;
+	}
+};
+
+
+
+};///TNB
+

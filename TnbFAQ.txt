@@ -1,0 +1,144 @@
+
+namespace TNB
+{
+
+
+
+/**
+\page FAQ FAQ
+
+
+\section SEC_COMMON §「共通系」
+
+	Q. MFC プロジェクトじゃないのですが、使えますか？
+
+		コントロールのクラスなど、ヘッダファイル名が TnbMfc～.h のもの以外は、
+		MFC を使用していません。
+
+	Q. 
+
+
+\par
+\par
+*/
+
+/**
+\page FAQ FAQ
+
+\section SEC_INFO §「情報系」
+
+	Q. MFC 使わずに文字列を安全に扱いたい。
+
+		CStr があります。
+
+	Q. UNICODE プロジェクトで、 S-JIS を使いたい（あるいはその逆）。
+
+		CAscii , CUnicode があります。
+
+	Q. 安全、且つ、高速に文字列を連結したい。
+
+		CStr で連結は可能ですが、数多く連結しまくる場合、 CStrAdder を使ったほうが、高速です。
+
+	Q. JIS コード文字列、 UTF-8 コード文字列を使いたい。
+
+		CJisStr 、 CUtf8Str があります。これらはメソッドが
+		少なく、 S-JIS や UNICODE との相互変換用の色が強いものです。
+
+
+
+\par
+\par
+*/
+
+/**
+\page FAQ FAQ
+
+\section SEC_DRAW §「表示系」
+
+	Q. 
+
+
+\par
+\par
+*/
+
+
+namespace MFC
+{
+
+/**
+\page FAQ FAQ
+\section SEC_CTRL §「コントロール系」
+
+	Q. TNB Library のコントロールクラスの使い方は？
+
+		コントロールクラスにより異なりますが、元となっている標準のコントロールを
+		リソースエディタでダイアログリソースに配置します。
+		例えば、ボタン系のコントロールならボタンをリソースに配置します。
+		そして、コントロール変数を作ります。
+
+		ex) EDIT の場合、 CEdit が作られます。
+		\code
+		class CTestDlg : public CDialog
+		{
+		// 構築
+		public:
+			CTestDlg (CWnd* pParent = NULL);	// 標準のコンストラクタ
+		// ダイアログ データ
+			//{{AFX_DATACTestDlg 
+			enum { IDD = IDD_TEST_DIALOG };
+			CEdit	m_chkRecvLog;
+			//}}AFX_DATA
+
+				:
+				:
+		\endcode
+
+		この CEDit の部分を、期待のコントロールクラス名に書き換えます。
+		後は、その OnInitDialog 等で、このインスタンスに対して、設定を
+		するだけです。
+
+		※テンプレートになってい場合、一度、 typedef をしないと、 Class Wizard などが
+		期待通りに動かなくなることがあります。ご注意ください。
+
+		ex) 半透明ビットマップボタンの場合
+		\code
+		typedef CRgnSemitransparentButtonT<_BIT(3),60> CSemiButton; // 「無効状態」が50%透過の別名を宣言
+
+		class CTestDlg : public CDialog
+		{
+		// 構築
+		public:
+			CTestDlg (CWnd* pParent = NULL);	// 標準のコンストラクタ
+		// ダイアログ データ
+			//{{AFX_DATACTestDlg 
+			enum { IDD = IDD_TEST_DIALOG };
+			CSemiButton	m_button;
+			//}}AFX_DATA
+
+				:
+				:
+		\endcode
+
+	Q. カラフルなボタンを作りたい
+
+		文字の色と背景の色を変えたいだけなら CFontAdjusterAddinT .
+		画像によるカラフルなボタンにしたいなら、 CRgbButton .
+	
+	Q. ダイアログに簡単なアニメーションを張りたい。
+
+		複数のビットマップを数枚使ったアニメーションを表示したい場合、
+		CAnimateStatic が使用できます。
+
+	Q. 作ったスレッドから SetWindowText したら、ロックした。
+
+		CSetTextAddinT を使ってみてください。
+
+
+\par
+\par
+*/
+
+}; //MFC
+
+}; //TNB
